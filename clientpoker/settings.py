@@ -10,6 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-@-f533s8k420ho+7t!e-2z#im^w7wyg0gr+^xz00i^$e*67*)-'
+ENDPOINT_API = "http://127.0.0.1:8000"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

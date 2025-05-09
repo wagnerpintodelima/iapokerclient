@@ -1,3 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block body %}
+
+<div id="app" class="container mt-5">
+    <h1 class="mb-4">IA Poker Client - Mesas</h1>
+
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Mesa</th>
+                <th scope="col">Max Players</th>
+                <th scope="col">Chips</th>
+                <th scope="col">SB</th>
+                <th scope="col">BB</th>
+                <th scope="col">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr v-if="mesas" v-for="(item, index) in mesas" :key="index">
+                    <th scope="row">${ item.id }$</th>
+                    <td>${ item.name }$</td>
+                    <td>${ item.max_players }$</td>
+                    <td>${ item.initial_chips }$</td>
+                    <td>${ item.small_blind }$</td>
+                    <td>${ item.big_blind }$</td>
+                    <td>
+                        <a href="#" class="btn btn-primary" @click="entrar(item)">
+                            <i class="bi bi-box-arrow-in-right"></i> Entrar
+                        </a>                          
+                    </td>
+                </tr>                               
+            </tbody>
+            </table>
+    </div>
+
+
+  </div>
+
+  <input type="hidden" id="dados" value="{{ dados }}"></input>
+
+  <script src="{% static 'js/Home/index.js' %}"></script>
+
+
+{% endblock %}

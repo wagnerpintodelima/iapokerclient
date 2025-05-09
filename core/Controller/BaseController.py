@@ -4,12 +4,12 @@ from django.core.files.storage import FileSystemStorage
 import os
 import hashlib
 import datetime
-from clientpoker.settings import SECRET_KEY
+from clientpoker.settings import SECRET_KEY, ENDPOINT_API
 from django.http import FileResponse, Http404
 from django.conf import settings
 import base64
 from django.core.exceptions import PermissionDenied
-
+import requests
 
 def saveFile(folder, format, file, name=None):
 
@@ -110,4 +110,37 @@ def checkRequiredFields(dados, required_fields):
         raise PermissionDenied(f"Campos obrigatórios ausentes: {', '.join(missing_fields)}")
     return True
 
-        
+def chamar_api_externa(endpoint_name, metodo='GET', payload=None, headers=None):
+    
+    url = fr'{ENDPOINT_API}{endpoint_name}'
+    
+    if not url:
+        return {'erro': f'Endpoint "{endpoint_name}" não encontrado.'}
+    
+    if not headers:
+        headers = {
+            'Authorization': 'ota',
+        }
+
+    try:
+        if metodo == 'GET':
+            response = requests.get(url, headers=headers)
+        elif metodo == 'POST':
+            response = requests.post(url, json=payload, headers=headers)
+        else:
+            return {'erro': f'Método HTTP "{metodo}" não suportado.'}
+
+        response.raise_for_status()
+        return response.json()
+
+    except requests.exceptions.RequestException as e:
+        return {'erro': f'Erro ao chamar API externa: {str(e)}'}
+    
+    
+def setSessionValue(request, key, value):
+    request.session[key] = value
+    request.session.modified = True  # garante que o Django salve a sessão
+
+
+def getSessionValue(request, key, default=None):
+    return request.session.get(key, default)
