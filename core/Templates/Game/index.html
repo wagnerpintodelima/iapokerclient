@@ -1,0 +1,181 @@
+{% extends 'base_game.html' %}
+{% load static %}
+
+{% block css %}
+<style> 
+ body{
+  background-image: url('{% static 'assets\img\background.webp' %}');  
+  background-size: 1000px; /* ou ajuste para o tamanho desejado */  
+  background-position: center;
+ }
+
+.mesa {
+  position: relative;
+  width: auto;
+  height: 800px;
+  background-image: url('{% static 'assets\img\poker-table.webp' %}');
+  background-size: cover;
+  background-position: center;
+  margin: auto;
+  border-radius: 16px;  
+  max-width: 100%;    
+  aspect-ratio: 5 / 3;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.carta {
+  width: 60px;
+  margin: 0 5px;
+}
+
+.cartas-centro {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 8px;
+}
+
+.jogador {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+
+      background-color: #000000e8;
+    border-radius: 15px;
+    padding: 10px;
+    border: 1px dashed #ffffff;
+}
+
+.jogador .mao {
+  display: flex;
+  gap: 8px;
+}
+
+.jogador-bottom {
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.jogador-top {
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+.btn-rdr {
+    background-color: #4b2e2e;
+    border: 2px solid #000;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Georgia', serif;
+    letter-spacing: 1px;
+    margin: 5px;
+    transition: transform 0.1s ease-in-out;
+}
+
+.btn-rdr:hover {
+    background-color: #2c1a1a;
+    transform: scale(1.05);
+    color: #fff;
+}
+
+.btn-rdr i {
+    margin-right: 6px;
+}
+
+.input-rdr {
+    background-color: #2c1a1a;
+    border: 2px solid #000;
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Georgia', serif;
+    padding: 8px 12px;
+    border-radius: 4px;
+    width: 120px;
+    text-align: center;
+    outline: none;
+    box-shadow: inset 0 0 5px #000;
+    margin: 5px;
+}
+
+.input-rdr::placeholder {
+    color: #ccc;
+    font-weight: normal;
+}
+
+.input-rdr:focus {
+    border-color: #a52a2a;
+    background-color: #3b2323;
+}
+</style>
+
+{% endblock%}
+
+
+
+{% block body %}
+
+<div id="app" class="container mt-5">
+            
+    <div class="mesa">
+        <!-- Cartas comunitárias -->
+        <div class="cartas-centro">
+            <img src="{% static 'assets\img\Cartas\hide_card.webp' %}" class="carta">
+            <img src="{% static 'assets\img\Cartas\hide_card.webp' %}" class="carta">
+            <img src="{% static 'assets\img\Cartas\hide_card.webp' %}" class="carta">
+            <img src="{% static 'assets\img\Cartas\hide_card.webp' %}" class="carta">
+            <img src="{% static 'assets\img\Cartas\hide_card.webp' %}" class="carta">
+        </div>
+
+        <!-- Jogador Bottom -->
+        <div class="jogador jogador-bottom">
+            <span>BB</span>
+            <div class="mao">
+            <img src="{% static 'assets\img\Cartas\hide_card.webp' %}" class="carta">
+            <img src="{% static 'assets\img\Cartas\hide_card.webp' %}" class="carta">
+            </div>
+        </div>
+
+        
+
+        
+
+    </div>
+
+   <div class="col-12">
+
+
+        <a class="btn btn-rdr" href="#" role="button" v-if="dom.btn_fold"><i class="bi bi-x-octagon"></i> Fold</a>
+        <a class="btn btn-rdr" href="#" role="button" v-if="dom.btn_check"><i class="bi bi-hourglass-split"></i> Check</a>
+        <a class="btn btn-rdr" href="#" role="button" v-if="dom.btn_call"><i class="bi bi-box-arrow-in-down"></i> Call</a>
+        <a class="btn btn-rdr" href="#" role="button" v-if="dom.btn_raise"><i class="bi bi-arrow-up-circle"></i> Raise</a>
+        <a class="btn btn-rdr" href="#" role="button" v-if="dom.btn_allin"><i class="bi bi-fire"></i> All-in</a>
+        <input class="input-rdr" type="text" placeholder="Aposta" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,5)" v-if="dom.input_bet">
+
+
+   </div>
+
+
+</div>
+
+  <input type="hidden" id="dados" value="{{ dados }}"></input>
+  <input type="hidden" id="hidden_cards" value="{% static 'assets\img\Cartas\hide_card.webp' %}"></input>
+  <input type="hidden" id="img_background_0" value="{% static 'assets\img\background.webp' %}"></input>
+  <input type="hidden" id="img_background_1" value="{% static 'assets\img\poker-table-1.webp' %}"></input>
+  <input type="hidden" id="img_background_2" value="{% static 'assets\img\poker-table-2.webp' %}"></input>
+  <input type="hidden" id="img_background_3" value="{% static 'assets\img\poker-table-3b.webp' %}"></input>
+  
+
+  <script src="{% static 'js/Game/index.js' %}"></script>
+
+
+{% endblock %}

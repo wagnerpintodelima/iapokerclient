@@ -13,12 +13,13 @@ const app = createApp({
             player: {                
                 secret_key: "90da9aaf85704890bb7a14f0d2b6c0f0",
                 data: null                
-            }
+            },            
         })        
 
         onMounted(() => {
             form.dados = JSON.parse($('#dados').val())
             listarMesas()
+            
         })
 
         const listarMesas = async () => {        
@@ -38,7 +39,7 @@ const app = createApp({
 
                 const response = await fetch(url, requestOptions);
                 const result = await response.json(); // <- aqui é o pulo do gato
-                console.log('🔁 Resultado da API:', result);
+                console.log('🔁 Resultado da API:', result.mesas);
                 mesas.value = result.mesas; // <- agora sim
 
             } catch (error) {
@@ -79,7 +80,8 @@ const app = createApp({
         }
 
         // Expor para o console (F12)
-        window.form = form;
+        window.form = form
+        window.mesas = mesas
 
         return {
             tableId,      

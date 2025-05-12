@@ -21,11 +21,16 @@ endpoints = {
     'get_hash': '/api/get/hash',
     'list_table': '/api/table/list',
     'join_table': '/api/table/join',
+    'table_players': '/api/table/players',
 }
 
 @require_http_methods(["GET"])
-def indexView(request):
+def indexView(request):    
+    return render(request, 'Home/index.html', getTokens(request))
 
+# É re-aproveitada em outras ocasioes
+def getTokens(request):
+    
     headers = {
         'SECRET_CODE_GLOBAL': 'django-insecure-kqd6gnzz^24qe7q#%z%zhux%vrlciaj^!=ijneth$870*+c=ry',
     }
@@ -35,7 +40,7 @@ def indexView(request):
     setSessionValue(request, 'hash_system', response['hash_system'])
     setSessionValue(request, 'hash_admin', response['hash_admin'])
     
-    context = {
+    return {
         'dados': json.dumps({
             'hash_system': response['hash_system'],
             'hash_admin': response['hash_admin'],
@@ -44,4 +49,4 @@ def indexView(request):
         })
     }
 
-    return render(request, 'Home/index.html', context)
+    
